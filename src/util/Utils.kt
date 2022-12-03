@@ -24,10 +24,9 @@ fun <T> runner(config: Config<T>, logic: (List<String>) -> T) {
 
     val label = "Part ${config.part}"
     val testResult = logic(testInput)
-    val result = logic(input)
     try {
         check(testResult == config.expectedTestResult)
-        println("$label: $result")
+        println("$label: ${logic(input)}")
     } catch (e: IllegalStateException) {
         println("$label: test fail. Expected: ${config.expectedTestResult}, found: $testResult")
     }
