@@ -1,3 +1,5 @@
+import util.Config
+import util.runner
 import kotlin.math.max
 
 fun main() {
@@ -34,11 +36,6 @@ fun main() {
         return top3
     }
 
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 45000)
-
-    val input = readInput("Day01")
-    println(part1(input))
-    println(part2(input))
+    runner(Config(1, 24000), ::part1)
+    runner(Config(2, 45000), ::part2)
 }

@@ -1,17 +1,17 @@
+import util.Config
+import util.runner
+
 fun main() {
+    /* Part 1 */
     fun part1(input: List<String>): Int {
         return input.size
     }
+    runner(Config(1, 0), ::part1)
 
+
+    /* Part 2 */
     fun part2(input: List<String>): Int {
         return input.size
     }
-
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Dayn_test")
-    check(part1(testInput) == 45000)
-
-    val input = readInput("Dayn")
-    println(part1(input))
-    println(part2(input))
+    runner(Config(2, 0), ::part2)
 }
