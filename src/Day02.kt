@@ -1,4 +1,3 @@
-import util.Config
 import util.runner
 
 fun main() {
@@ -49,6 +48,6 @@ fun main() {
         return total
     }
 
-    runner(Config(1, 15), ::part1)
-    runner(Config(2, 12), ::part2)
+    runner(15, ::part1)
+    runner(12, ::part2)
 }

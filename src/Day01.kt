@@ -1,4 +1,3 @@
-import util.Config
 import util.runner
 import kotlin.math.max
 
@@ -36,6 +35,6 @@ fun main() {
         return top3
     }
 
-    runner(Config(1, 24000), ::part1)
-    runner(Config(2, 45000), ::part2)
+    runner(24000, ::part1)
+    runner(45000, ::part2)
 }

@@ -1,5 +1,4 @@
 import org.jetbrains.annotations.TestOnly
-import util.Config
 import util.runner
 
 @TestOnly
@@ -24,7 +23,7 @@ fun main() {
         }
         return result
     }
-    runner(Config(1, 157), ::part1)
+    runner(157, ::part1)
 
     fun part2(input: List<String>): Int {
         var result = 0
@@ -37,9 +36,5 @@ fun main() {
         }
         return result
     }
-    runner(Config(2, 70), ::part2)
-}
-
-class ASD {
-    fun asd() {}
+    runner(70, ::part2)
 }
