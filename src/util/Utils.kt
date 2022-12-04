@@ -19,8 +19,11 @@ fun String.md5() = BigInteger(1, MessageDigest.getInstance("MD5").digest(toByteA
     .padStart(32, '0')
 
 fun <T> runner(expectedTestResult: T, logic: (List<String>) -> T) {
-    val day = logic::class.java.name.split("$")[0].dropLast(2)
-    val functionName = (logic as KFunction<*>).name
+    val (day, functionName) = (logic as KFunction<*>).let {
+        return@let listOf(
+            it.javaClass.name.split("$").first().dropLast(2), it.name
+        )
+    }
 
     val testResult = logic(readInput("${day}_test"))
     try {

@@ -15,11 +15,7 @@ fun main() {
             "B Y" to 3,
             "C Z" to 3
         )
-        var total = 0
-        input.forEach {
-            total += (shapeScore[it[2]] ?: 0) + (gameScore[it] ?: 0)
-        }
-        return total
+        return input.sumOf { (shapeScore[it[2]] ?: 0) + (gameScore[it] ?: 0) }
     }
 
     fun part2(input: List<String>): Int {
@@ -28,7 +24,7 @@ fun main() {
             'Y' to 3,
             'Z' to 6
         )
-        val gameScore2 = mapOf(
+        val gameScore = mapOf(
             "A Y" to 1,
             "A Z" to 2,
             "A X" to 3,
@@ -41,11 +37,7 @@ fun main() {
             "C X" to 2,
             "C Y" to 3
         )
-        var total = 0
-        input.forEach {
-            total += (resultScore[it[2]] ?: 0) + (gameScore2[it] ?: 0)
-        }
-        return total
+        return input.sumOf { (resultScore[it[2]] ?: 0) + (gameScore[it] ?: 0) }
     }
 
     runner(15, ::part1)
