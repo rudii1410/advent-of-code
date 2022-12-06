@@ -9,6 +9,7 @@ import kotlin.reflect.KFunction
  * Reads lines from the given input txt file.
  */
 fun readInput(name: String) = File("src", "$name.txt")
+    .apply { createNewFile() }
     .readLines()
 
 /**
