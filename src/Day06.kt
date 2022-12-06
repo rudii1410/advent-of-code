@@ -2,12 +2,7 @@ import util.runner
 
 fun main() {
     fun findFirstMarker(str: String, size: Int): Int {
-        var result = -1
-        for (i in (size - 1) until str.length - 1) {
-            str.substring(i - (size - 1), i + 1).toList().distinct().takeIf { it.size == size }?.let { result = i + 1 }
-            if (result > 0) break
-        }
-        return result
+        return str.toList().windowed(size).indexOfFirst { it.toSet().size == size } + size
     }
 
     /* Part 1 */
