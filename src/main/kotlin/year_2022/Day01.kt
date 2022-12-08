@@ -1,4 +1,6 @@
-import util.runner
+package year_2022
+
+import util.Runner
 import kotlin.math.max
 
 fun main() {
@@ -15,6 +17,7 @@ fun main() {
         }
         return maxCal
     }
+    Runner.run(24000, ::part1)
 
     fun part2(input: List<String>): Int {
         val results = mutableListOf<Int>()
@@ -34,7 +37,5 @@ fun main() {
 
         return top3
     }
-
-    runner(24000, ::part1)
-    runner(45000, ::part2)
+    Runner.run(45000, ::part2)
 }

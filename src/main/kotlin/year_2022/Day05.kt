@@ -1,4 +1,6 @@
-import util.runner
+package year_2022
+
+import util.Runner
 import java.util.*
 
 fun main() {
@@ -46,7 +48,7 @@ fun main() {
             }
         }.getHead()
     }
-    runner("CMZ", ::part1)
+    Runner.run("CMZ", ::part1)
 
 
     /* Part 2 */
@@ -59,5 +61,5 @@ fun main() {
             }
         }.getHead()
     }
-    runner("MCD", ::part2)
+    Runner.run("MCD", ::part2)
 }

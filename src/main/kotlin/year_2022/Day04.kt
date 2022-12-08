@@ -1,4 +1,6 @@
-import util.runner
+package year_2022
+
+import util.Runner
 
 fun main() {
     fun Int.inRange(range: List<Int>): Boolean = this in range[0]..range[1]
@@ -17,7 +19,7 @@ fun main() {
             }
         }.sum()
     }
-    runner(2, ::part1)
+    Runner.run(2, ::part1)
 
 
     /* Part 2 */
@@ -28,5 +30,5 @@ fun main() {
             }
         }.sum()
     }
-    runner(4, ::part2)
+    Runner.run(4, ::part2)
 }

@@ -1,4 +1,6 @@
-import util.runner
+package year_2022
+
+import util.Runner
 import kotlin.math.min
 
 sealed class Node {
@@ -65,7 +67,7 @@ fun main() {
     fun part1(input: List<String>): Int {
         return aTraverse(generateTree(input))
     }
-    runner(95437, ::part1)
+    Runner.run(95437, ::part1)
 
 
     /* Part 2 */
@@ -74,5 +76,5 @@ fun main() {
             bTraverse(it, it.totalSize - 40_000_000)
         }
     }
-    runner(24933642, ::part2)
+    Runner.run(24933642, ::part2)
 }

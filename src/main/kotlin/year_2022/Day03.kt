@@ -1,7 +1,7 @@
-import org.jetbrains.annotations.TestOnly
-import util.runner
+package year_2022
 
-@TestOnly
+import util.Runner
+
 fun main() {
     fun getCharScore(ch: Char) = if (ch.isUpperCase()) (ch - 'A' + 1) + 26 else (ch - 'a' + 1)
     fun MutableMap<Char, Int>.addScore(key: Char) {
@@ -23,7 +23,7 @@ fun main() {
         }
         return result
     }
-    runner(157, ::part1)
+    Runner.run(157, ::part1)
 
     fun part2(input: List<String>): Int {
         var result = 0
@@ -36,5 +36,5 @@ fun main() {
         }
         return result
     }
-    runner(70, ::part2)
+    Runner.run(70, ::part2)
 }

@@ -1,4 +1,6 @@
-import util.runner
+package year_2022
+
+import util.Runner
 
 fun main() {
     fun part1(input: List<String>): Int {
@@ -17,6 +19,7 @@ fun main() {
         )
         return input.sumOf { (shapeScore[it[2]] ?: 0) + (gameScore[it] ?: 0) }
     }
+    Runner.run(15, ::part1)
 
     fun part2(input: List<String>): Int {
         val resultScore = mapOf(
@@ -39,7 +42,5 @@ fun main() {
         )
         return input.sumOf { (resultScore[it[2]] ?: 0) + (gameScore[it] ?: 0) }
     }
-
-    runner(15, ::part1)
-    runner(12, ::part2)
+    Runner.run(12, ::part2)
 }

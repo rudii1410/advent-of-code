@@ -1,4 +1,6 @@
-import util.runner
+package year_2022
+
+import util.Runner
 
 fun main() {
     fun findFirstMarker(str: String, size: Int): Int {
@@ -9,12 +11,12 @@ fun main() {
     fun part1(input: List<String>): Int {
         return findFirstMarker(input[0], 4)
     }
-    runner(7, ::part1)
+    Runner.run(7, ::part1)
 
 
     /* Part 2 */
     fun part2(input: List<String>): Int {
         return findFirstMarker(input[0], 14)
     }
-    runner(19, ::part2)
+    Runner.run(19, ::part2)
 }
