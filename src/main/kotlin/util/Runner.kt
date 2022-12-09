@@ -39,7 +39,7 @@ object Runner {
             try {
                 check(testResult == expectedTestResult[i])
             } catch (e: IllegalStateException) {
-                println("$functionName (#${i + 1}): test fail. Expected: $expectedTestResult, found: $testResult\n")
+                println("$functionName (#${i + 1}): test fail. Expected: ${expectedTestResult[i]}, found: $testResult\n")
                 return
             }
         }

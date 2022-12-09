@@ -3,78 +3,60 @@ package year_2022
 import util.Runner
 
 fun main() {
-    fun Pair<Int, Int>.stillAround(other: Pair<Int, Int>): Boolean {
-        return (other.first >= this.first - 1 && other.first <= this.first + 1) &&
-                (other.second >= this.second - 1 && other.second <= this.second + 1)
-    }
-    fun Pair<Int, Int>.moveCloser(other: Pair<Int, Int>): Pair<Int, Int> {
-        return copy(
-            first = first + if (other.first > first) 1 else if (other.first < first) -1 else 0,
-            second = second + if (other.second > second) 1 else if (other.second < second) -1 else 0
-        )
+    fun Pair<Int, Int>.move(move: Pair<Int, Int>): Pair<Int, Int> {
+        return copy(first = first + move.first, second = second + move.second)
     }
 
-    val hMove = mapOf("L" to -1, "R" to 1)
-    val vMove = mapOf("U" to -1, "D" to 1)
+    val moveMap = mapOf(
+        "L" to Pair(-1, 0),
+        "R" to Pair(1, 0),
+        "U" to Pair(0, -1),
+        "D" to Pair(0, 1)
+    )
+
+    fun calculate(input: List<String>, len: Int): Int {
+        val visited = mutableMapOf<Pair<Int, Int>, Boolean>()
+        val rope = MutableList(len) { Pair(0, 0) }
+
+        return input.sumOf { str ->
+            val row = str.split(" ")
+            List(row[1].toInt()) { _ ->
+                rope[0] = rope[0].move(moveMap.getOrDefault(row[0], Pair(0, 0)))
+
+                var tmp = rope[0]
+                for (i in 1 until rope.size) {
+                    if (tmp.first in (rope[i].first - 1)..(rope[i].first + 1) &&
+                        tmp.second in (rope[i].second - 1)..(rope[i].second + 1)) break
+
+                    rope[i] = rope[i].let {
+                        it.move(
+                            Pair(
+                                if (tmp.first > it.first) 1 else if (tmp.first < it.first) -1 else 0,
+                                if (tmp.second > it.second) 1 else if (tmp.second < it.second) -1 else 0
+                            )
+                        )
+                    }
+                    tmp = rope[i]
+                }
+
+                if (!visited.getOrDefault(rope[len - 1], false)) {
+                    visited[rope[len - 1]] = true
+                    1
+                } else 0
+            }.sum()
+        }
+    }
 
     /* Part 1 */
     fun part1(input: List<String>): Int {
-        val visited = mutableMapOf<Pair<Int, Int>, Boolean>()
-        var headPos = Pair(0, 0)
-        var tailPos = headPos
-        var result = 1
-
-        input.forEach {
-            val row = it.split(" ")
-            repeat(row[1].toInt()) {
-                headPos = headPos.copy(
-                    first = headPos.first + hMove.getOrDefault(row[0], 0),
-                    second = headPos.second + vMove.getOrDefault(row[0], 0)
-                )
-                if (tailPos.stillAround(headPos)) return@repeat
-
-                tailPos = tailPos.moveCloser(headPos)
-                if (!visited.getOrDefault(tailPos, false)) {
-                    result += 1
-                    visited[tailPos] = true
-                }
-            }
-        }
-
-        return result
+        return calculate(input, 2)
     }
     Runner.run(::part1, 88, 13)
 
 
     /* Part 2 */
     fun part2(input: List<String>): Int {
-        val visited = mutableMapOf<Pair<Int, Int>, Boolean>()
-        var headPos = Pair(0, 0)
-        val rope = MutableList(9) { Pair(0, 0) }
-        var result = 0
-
-        input.forEach {
-            val row = it.split(" ")
-            repeat(row[1].toInt()) {
-                headPos = headPos.copy(
-                    first = headPos.first + hMove.getOrDefault(row[0], 0),
-                    second = headPos.second + vMove.getOrDefault(row[0], 0)
-                )
-
-                var tmp = headPos
-                for (i in 0 until rope.size) {
-                    if (rope[i].stillAround(tmp)) break
-                    rope[i] = rope[i].moveCloser(tmp)
-                    tmp = rope[i]
-                }
-
-                if (!visited.getOrDefault(rope[8], false)) {
-                    result += 1
-                    visited[rope[8]] = true
-                }
-            }
-        }
-        return result
+        return calculate(input, 10)
     }
     Runner.run(::part2, 36)
 }
