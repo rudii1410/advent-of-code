@@ -48,7 +48,7 @@ fun main() {
             }
         }.getHead()
     }
-    Runner.run("CMZ", ::part1)
+    Runner.run(::part1, "CMZ")
 
 
     /* Part 2 */
@@ -61,5 +61,5 @@ fun main() {
             }
         }.getHead()
     }
-    Runner.run("MCD", ::part2)
+    Runner.run(::part2, "MCD")
 }

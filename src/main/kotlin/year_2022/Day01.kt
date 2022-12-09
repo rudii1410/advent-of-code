@@ -17,7 +17,7 @@ fun main() {
         }
         return maxCal
     }
-    Runner.run(24000, ::part1)
+    Runner.run(::part1, 24000)
 
     fun part2(input: List<String>): Int {
         val results = mutableListOf<Int>()
@@ -37,5 +37,5 @@ fun main() {
 
         return top3
     }
-    Runner.run(45000, ::part2)
+    Runner.run(::part2, 45000)
 }

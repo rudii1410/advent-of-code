@@ -23,7 +23,7 @@ fun main() {
         }
         return result
     }
-    Runner.run(157, ::part1)
+    Runner.run(::part1, 157)
 
     fun part2(input: List<String>): Int {
         var result = 0
@@ -36,5 +36,5 @@ fun main() {
         }
         return result
     }
-    Runner.run(70, ::part2)
+    Runner.run(::part2, 70)
 }

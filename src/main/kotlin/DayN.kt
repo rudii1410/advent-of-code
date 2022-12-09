@@ -5,12 +5,12 @@ fun main() {
     fun part1(input: List<String>): Int {
         return input.size
     }
-    Runner.run(0, ::part1)
+    Runner.run(::part1, 0)
 
 
     /* Part 2 */
     fun part2(input: List<String>): Int {
         return input.size
     }
-    Runner.run(0, ::part2)
+    Runner.run(::part2, 0)
 }

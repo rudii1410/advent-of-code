@@ -47,7 +47,7 @@ fun main() {
             }.count { it }
         }.sum()
     }
-    Runner.run(21, ::part1)
+    Runner.run(::part1, 21)
 
     /* Part 2 */
     fun traversePart(tree: List<String>, part: Int, currentTree: Int, v: Int, h: Int, maxV: Int, maxH: Int): Int {
@@ -88,5 +88,5 @@ fun main() {
             }.max()
         }.max()
     }
-    Runner.run(8, ::part2)
+    Runner.run(::part2, 8)
 }

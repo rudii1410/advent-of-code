@@ -19,7 +19,7 @@ fun main() {
         )
         return input.sumOf { (shapeScore[it[2]] ?: 0) + (gameScore[it] ?: 0) }
     }
-    Runner.run(15, ::part1)
+    Runner.run(::part1, 15)
 
     fun part2(input: List<String>): Int {
         val resultScore = mapOf(
@@ -42,5 +42,5 @@ fun main() {
         )
         return input.sumOf { (resultScore[it[2]] ?: 0) + (gameScore[it] ?: 0) }
     }
-    Runner.run(12, ::part2)
+    Runner.run(::part2, 12)
 }

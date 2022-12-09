@@ -19,7 +19,7 @@ fun main() {
             }
         }.sum()
     }
-    Runner.run(2, ::part1)
+    Runner.run(::part1, 2)
 
 
     /* Part 2 */
@@ -30,5 +30,5 @@ fun main() {
             }
         }.sum()
     }
-    Runner.run(4, ::part2)
+    Runner.run(::part2, 4)
 }

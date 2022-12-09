@@ -11,12 +11,12 @@ fun main() {
     fun part1(input: List<String>): Int {
         return findFirstMarker(input[0], 4)
     }
-    Runner.run(7, ::part1)
+    Runner.run(::part1, 7)
 
 
     /* Part 2 */
     fun part2(input: List<String>): Int {
         return findFirstMarker(input[0], 14)
     }
-    Runner.run(19, ::part2)
+    Runner.run(::part2, 19)
 }

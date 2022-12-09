@@ -67,7 +67,7 @@ fun main() {
     fun part1(input: List<String>): Int {
         return aTraverse(generateTree(input))
     }
-    Runner.run(95437, ::part1)
+    Runner.run(::part1, 95437)
 
 
     /* Part 2 */
@@ -76,5 +76,5 @@ fun main() {
             bTraverse(it, it.totalSize - 40_000_000)
         }
     }
-    Runner.run(24933642, ::part2)
+    Runner.run(::part2, 24933642)
 }
