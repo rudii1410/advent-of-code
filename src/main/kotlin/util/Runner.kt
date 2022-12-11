@@ -22,6 +22,8 @@ object Runner {
 
     private fun readInput(year: String, name: String) = File(getDirPath(year), name).readLines()
 
+    private fun readAllInput(year: String, name: String) = File(getDirPath(year), name).readText()
+
     fun <T> run(logic: (List<String>) -> T, vararg expectedTestResult: T) {
         val (year, day, functionName) = (logic as KFunction<*>).let {
             val fileName = it.javaClass.name.split("$").first().split(".")
@@ -46,6 +48,34 @@ object Runner {
 
         val time = measureTimeMillis {
             println("$functionName: ${logic(readInput(year, getInputName(day)))}")
+        }
+        println("Execution time: $time ms\n")
+    }
+
+    fun <T> runAll(logic: (String) -> T, vararg expectedTestResult: T) {
+        val (year, day, functionName) = (logic as KFunction<*>).let {
+            val fileName = it.javaClass.name.split("$").first().split(".")
+            return@let listOf(
+                fileName[0].split("_")[1],
+                fileName[1].dropLast(2).drop(3),
+                it.name
+            )
+        }
+
+        initTestFiles(year, day, expectedTestResult.size)
+
+        for (i in expectedTestResult.indices) {
+            val testResult = logic(readAllInput(year, getTestInputName(day, i + 1)))
+            try {
+                check(testResult == expectedTestResult[i])
+            } catch (e: IllegalStateException) {
+                println("$functionName (#${i + 1}): test fail. Expected: ${expectedTestResult[i]}, found: $testResult\n")
+                return
+            }
+        }
+
+        val time = measureTimeMillis {
+            println("$functionName: ${logic(readAllInput(year, getInputName(day)))}")
         }
         println("Execution time: $time ms\n")
     }

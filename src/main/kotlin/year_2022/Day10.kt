@@ -38,9 +38,10 @@ fun main() {
         input.joinToString("") {
             if (it == "noop") getPixelState(cycle++, x)
             else {
-                val str = getPixelState(cycle++, x) + getPixelState(cycle++, x)
-                x += it.split(" ")[1].toInt()
-                str
+                getPixelState(cycle++, x) + getPixelState(cycle++, x).let { str ->
+                    x += it.split(" ")[1].toInt()
+                    str
+                }
             }
         }.chunked(40).forEach {
             println(it)
