@@ -29,7 +29,7 @@ fun main() {
 
     /* Part 2 */
     fun getPixelState(c: Int, x: Int): String {
-        return if (c % 40 in x - 1..x + 1) "#" else "."
+        return if (c % 40 in x - 1..x + 1) "█" else " "
     }
     fun part2(input: List<String>) {
         var cycle = 0
