@@ -3,7 +3,7 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var util = preload("res://src/day_01.gd").new()
+	var util = preload("res://src/day_02.gd").new()
 	pass
 	
 
