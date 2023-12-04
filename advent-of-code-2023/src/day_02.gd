@@ -5,8 +5,8 @@ var util = preload("res://src/util.gd").new()
 func _init():
 	var inputs = util.read_input("day_02.txt")
 	var parsed_inputs = inputs.map(parse_input)
+	part_one(parsed_inputs)
 	part_two(parsed_inputs)
-	quit()
 	
 func part_one(data: Array):
 	var expected = { "blue": 14, "green": 13, "red": 12 }

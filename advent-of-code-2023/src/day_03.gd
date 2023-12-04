@@ -8,8 +8,6 @@ func _init():
 	var maxY = inputs[0].length()
 	part_one(inputs, maxX, maxY)
 	part_two(inputs, maxX, maxY)
-	
-	quit()
 
 func part_one(inputs: Array, maxX: int, maxY: int):
 	var result = 0
@@ -76,23 +74,16 @@ func traverse_engine(data: Array, x: int, y: int, maxX: int, maxY: int, result: 
 	return result
 
 func get_adjacent_symbol(data: Array, x: int, y: int, maxX: int, maxY: int) -> Dictionary:
-	if (is_valid_position(x - 1, y - 1, maxX, maxY) && is_valid_symbol(data[x - 1][y - 1])):
-		return { "x": x - 1, "y": y - 1, "symbol": data[x - 1][y - 1]}
-	elif (is_valid_position(x - 1, y, maxX, maxY) && is_valid_symbol(data[x - 1][y])):
-		return { "x": x - 1, "y": y, "symbol": data[x - 1][y]}
-	elif (is_valid_position(x - 1, y + 1, maxX, maxY) && is_valid_symbol(data[x - 1][y + 1])):
-		return { "x": x - 1, "y": y + 1, "symbol": data[x - 1][y + 1]}
-	elif (is_valid_position(x, y - 1, maxX, maxY) && is_valid_symbol(data[x][y - 1])):
-		return { "x": x, "y": y - 1, "symbol": data[x][y - 1]}
-	elif (is_valid_position(x, y + 1, maxX, maxY) && is_valid_symbol(data[x][y + 1])):
-		return { "x": x, "y": y + 1, "symbol": data[x][y + 1]}
-	elif (is_valid_position(x + 1, y - 1, maxX, maxY) && is_valid_symbol(data[x + 1][y - 1])):
-		return { "x": x + 1, "y": y - 1, "symbol": data[x + 1][y - 1]}
-	elif (is_valid_position(x + 1, y, maxX, maxY) && is_valid_symbol(data[x + 1][y])):
-		return { "x": x + 1, "y": y, "symbol": data[x + 1][y]}
-	elif (is_valid_position(x + 1, y + 1, maxX, maxY) && is_valid_symbol(data[x + 1][y + 1])):
-		return { "x": x + 1, "y": y + 1, "symbol": data[x + 1][y + 1]}
-	return { "x": -1, "y": -1, "symbol": "" }
+	var pos = [
+		[x - 1, y - 1], [x - 1, y], [x - 1, y + 1],
+		[x, y - 1], [x, y + 1],
+		[x + 1, y - 1], [x + 1, y], [x + 1, y + 1]
+	]
+	for p in pos:
+		if (is_valid_position(p[0], p[1], maxX, maxY) && is_valid_symbol(data[p[0]][p[1]])):
+			return { "x": p[0], "y": p[1], "symbol": data[p[0]][p[1]] }
+
+	return { "symbol": "" }
 
 func is_valid_symbol(str: String) -> bool:
 	if (str.is_valid_int() || str == "."):
