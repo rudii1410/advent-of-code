@@ -16,3 +16,9 @@ func read_input_all(fileName: String) -> String:
 	var inputs = f.get_as_text()
 	f.close()
 	return inputs
+
+func array_to_string(arr: Array) -> String:
+	var result = ""
+	for i in arr:
+		result += "%s" % i
+	return result
