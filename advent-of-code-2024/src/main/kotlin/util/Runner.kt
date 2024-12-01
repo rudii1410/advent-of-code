@@ -12,20 +12,14 @@ import kotlin.reflect.full.findAnnotation
 import kotlin.system.measureTimeMillis
 
 object Runner {
-    private val listStringType = String::class
-        .createType()
-        .let(KTypeProjection::invariant)
-        .let(::listOf)
-        .let(List::class::createType)
-
     fun <IN, OUT> run(logic: suspend (IN) -> OUT) = runBlocking {
         val function = (logic as KFunction<*>).extractInfo()
 
         function.testSuites.forEachIndexed { index, (inputPath, output) ->
             val input = File(getDirPath(), inputPath).let {
                 when (function.paramType) {
-                    listStringType -> it.readLines()
-                    String::class.createType() -> it.readText()
+                    Type.ListString.value -> it.readLines()
+                    Type.Str.value -> it.readText()
                     else -> throw IllegalStateException("")
                 }
             }
@@ -68,4 +62,15 @@ object Runner {
         val paramType: KType,
         val testSuites: List<Pair<String, String>>
     )
+
+    enum class Type(val value: KType) {
+        ListString(
+            String::class
+                .createType()
+                .let(KTypeProjection::invariant)
+                .let(::listOf)
+                .let(List::class::createType)
+        ),
+        Str(String::class.createType())
+    }
 }
