@@ -2,7 +2,6 @@
 
 package util
 
-import kotlinx.coroutines.*
 import java.io.File
 import kotlin.reflect.KFunction
 import kotlin.reflect.KType
@@ -12,28 +11,56 @@ import kotlin.reflect.full.findAnnotation
 import kotlin.system.measureTimeMillis
 
 object Runner {
-    fun <IN, OUT> run(logic: suspend (IN) -> OUT) = runBlocking {
+    fun <IN, OUT> run(vararg logics: (IN) -> OUT) {
+        logics.forEach(::run)
+    }
+
+    fun <IN, OUT> run(logic: (IN) -> OUT) {
         val function = (logic as KFunction<*>).extractInfo()
 
-        function.testSuites.forEachIndexed { index, (inputPath, output) ->
-            val input = File(getDirPath(), inputPath).let {
-                when (function.paramType) {
-                    Type.ListString.value -> it.readLines()
-                    Type.Str.value -> it.readText()
-                    else -> throw IllegalStateException("")
-                }
+        function.testSuites.mapIndexed { index, (inputPath, output) ->
+            val testResult = run(
+                inputPath = inputPath,
+                paramType = function.paramType,
+                logic = logic
+            )
+
+            try {
+                check(testResult == output)
+                println("${function.name} (test #${index + 1}): pass")
+                true
+            } catch (e: IllegalStateException) {
+                println("${function.name} (test #${index + 1}): fail. Expected: ${output}, found: $testResult")
+                false
             }
-            val executionTime = measureTimeMillis {
-                val testResult = logic(input as IN)
-                try {
-                    check(testResult == output)
-                    println("${function.name} (#${index + 1}): test passed")
-                } catch (e: IllegalStateException) {
-                    println("${function.name} (#${index + 1}): test fail. Expected: ${output}, found: $testResult")
-                }
-            }
-            println("${function.name} (#${index + 1}): Execution time: $executionTime\n")
+        }.none { !it }
+            .takeIf { it } ?: return
+
+        var result: OUT?
+        val executionTime = measureTimeMillis {
+            result = run(
+                inputPath = function.problemPath,
+                paramType = function.paramType,
+                logic = logic
+            )
         }
+        println("${function.name} result: $result. Execution time: $executionTime")
+    }
+
+    private fun <IN, OUT> run(
+        inputPath: String,
+        paramType: KType,
+        logic: (IN) -> OUT
+    ): OUT {
+        val input = File(getDirPath(), inputPath).let {
+            when (paramType) {
+                Type.ListString.value -> it.readLines()
+                Type.Str.value -> it.readText()
+                else -> throw IllegalStateException("")
+            }
+        }
+
+        return logic(input as IN)
     }
 
     private fun getDirPath() = "src/main/resources/input"
@@ -41,18 +68,19 @@ object Runner {
     private fun KFunction<*>.extractInfo(): FunctionInfo {
         val testSuites = findAnnotation<TestSuites>()
             ?: throw IllegalStateException("$name must contain @TestSuites annotation")
-        check(testSuites.input.size == testSuites.output.size) {
+        check(testSuites.testInputFiles.size == testSuites.testExpectedOutput.size) {
             "@TestSuites input & output must match. " +
-                    "Input size: ${testSuites.input.size}, output size: ${testSuites.output.size}"
+                    "Input size: ${testSuites.testInputFiles.size}, output size: ${testSuites.testExpectedOutput.size}"
         }
         val fileName = javaClass.name.split("$").first().split(".")
         return FunctionInfo(
             day = fileName[1].dropLast(2).drop(3),
             name = name,
             paramType = parameters.first().type,
-            testSuites = testSuites.input.mapIndexed { index, s ->
-                s to testSuites.output[index]
-            }
+            testSuites = testSuites.testInputFiles.mapIndexed { index, s ->
+                s to testSuites.testExpectedOutput[index]
+            },
+            problemPath = testSuites.problemFiles
         )
     }
 
@@ -60,7 +88,8 @@ object Runner {
         val day: String,
         val name: String,
         val paramType: KType,
-        val testSuites: List<Pair<String, String>>
+        val testSuites: List<Pair<String, String>>,
+        val problemPath: String
     )
 
     enum class Type(val value: KType) {
