@@ -1,7 +1,6 @@
 package problem
 
 import util.Runner
-import util.TestSuites
 import kotlin.math.abs
 
 private fun List<String>.prepareData(): Pair<List<Int>, List<Int>> {
@@ -16,11 +15,6 @@ private fun <T> List<T>.distinctAndCount(): Map<T, Int> {
     return groupingBy { it }.eachCount()
 }
 
-@TestSuites(
-    testInputFiles = ["day1_test.in"],
-    testExpectedOutput = ["11"],
-    problemFiles = "day1.in"
-)
 private fun part01(input: List<String>): String {
     return input.prepareData()
         .let { it.first.sorted() to it.second.sorted() }
@@ -29,11 +23,6 @@ private fun part01(input: List<String>): String {
         .toString()
 }
 
-@TestSuites(
-    testInputFiles = ["day1_test.in"],
-    testExpectedOutput = ["31"],
-    "day1.in"
-)
 private fun part02(input: List<String>): String {
     return input.prepareData()
         .let { it.first.distinctAndCount() to it.second.distinctAndCount() }
@@ -47,5 +36,11 @@ private fun part02(input: List<String>): String {
 }
 
 fun main() {
-    Runner.run(::part01, ::part02)
+    Runner.get(::part01)
+        .test("day1_test.in", "11")
+        .run("day1.in")
+
+    Runner.get(::part02)
+        .test("day1_test.in", "31")
+        .run("day1.in")
 }

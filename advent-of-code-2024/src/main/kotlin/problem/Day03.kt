@@ -1,55 +1,42 @@
 package problem
 
 import util.Runner
-import util.TestSuites
 
-private fun String.evaluateMul(): Int {
+private fun String.eval(): Int {
     return drop(4)
         .dropLast(1)
         .split(",")
         .let { p -> p[0].toInt() * p[1].toInt() }
 }
 
-@TestSuites(
-    testInputFiles = ["day3_test1.in"],
-    testExpectedOutput = ["161"],
-    problemFiles = "day3.in"
-)
-private fun part01(input: String): String {
-    val regex = "mul\\(\\d+,\\d+\\)".toRegex()
-    return regex.findAll(input)
-        .map {
-            it.groupValues
-                .first()
-                .evaluateMul()
-        }
-        .toList()
-        .sum()
-        .toString()
+private fun part01(input: String): Int {
+    return "mul\\(\\d+,\\d+\\)".toRegex()
+        .findAll(input)
+        .fold(0) { acc, s -> acc + s.value.eval() }
 }
 
-@TestSuites(
-    testInputFiles = ["day3_test1.in"],
-    testExpectedOutput = ["48"],
-    problemFiles = "day3.in"
-)
-private fun part02(input: String): String {
-    val regex = "mul\\(\\d+,\\d+\\)|do\\(\\)|don't\\(\\)".toRegex()
-    return regex.findAll(input)
-        .map { it.groupValues.first() }
-        .fold(0 to true) { acc: Pair<Int, Boolean>, s: String ->
-            when {
-                s.startsWith("don't") -> acc.first to false
-                s.startsWith("do") -> acc.first to true
-                s.startsWith("mul") && acc.second -> {
-                    s.evaluateMul()
-                        .let { acc.first + it to true }
+private fun part02(input: String): Int {
+    return "mul\\(\\d+,\\d+\\)|do\\(\\)|don't\\(\\)".toRegex()
+        .findAll(input)
+        .fold(0 to true) { acc, s ->
+            when(s.value) {
+                "don't()" -> acc.copy(second = false)
+                "do()" -> acc.copy(second = true)
+                else -> {
+                    if (!acc.second) return@fold acc
+                    (acc.first + s.value.eval()) to true
                 }
-                else -> acc
             }
-        }.first.toString()
+        }
+        .first
 }
 
 fun main() {
-    Runner.run(::part01, ::part02)
+    Runner.get(::part01)
+        .test("day3_test1.in", 161)
+        .run("day3.in")
+
+    Runner.get(::part02)
+        .test("day3_test1.in", 48)
+        .run("day3.in")
 }

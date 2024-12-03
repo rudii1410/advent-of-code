@@ -1,5 +1,3 @@
-@file:Suppress("UNCHECKED_CAST")
-
 package util
 
 import java.io.File
@@ -7,52 +5,56 @@ import kotlin.reflect.KFunction
 import kotlin.reflect.KType
 import kotlin.reflect.KTypeProjection
 import kotlin.reflect.full.createType
-import kotlin.reflect.full.findAnnotation
 import kotlin.system.measureTimeMillis
 
-object Runner {
-    fun <IN, OUT> run(vararg logics: (IN) -> OUT) {
-        logics.forEach(::run)
+class Runner <I, O> (
+    private val solution: (input: I) -> O,
+) {
+    private val testCase: MutableList<Pair<String, O>> = mutableListOf()
+    private val functionInfo: FunctionInfo
+
+    init {
+        functionInfo = (solution as KFunction<*>).extractInfo()
     }
 
-    fun <IN, OUT> run(logic: (IN) -> OUT) {
-        val function = (logic as KFunction<*>).extractInfo()
+    fun test(inputPath: String, expectedOutput: O): Runner<I, O> {
+        testCase.add(inputPath to expectedOutput)
+        return this
+    }
 
-        function.testSuites.mapIndexed { index, (inputPath, output) ->
-            val testResult = run(
-                inputPath = inputPath,
-                paramType = function.paramType,
-                logic = logic
-            )
+    fun run(inputPath: String) {
+        testCase
+            .mapIndexed { index, (inputPath, output) ->
+                val testResult = run(
+                    inputPath = inputPath,
+                    paramType = functionInfo.paramType
+                )
 
-            try {
-                check(testResult == output)
-                println("${function.name} (test #${index + 1}): pass")
-                true
-            } catch (e: IllegalStateException) {
-                println("${function.name} (test #${index + 1}): fail. Expected: ${output}, found: $testResult")
-                false
+                try {
+                    check(testResult == output)
+                    println("${functionInfo.name} (test #${index + 1}): pass")
+                    true
+                } catch (e: IllegalStateException) {
+                    println("${functionInfo.name} (test #${index + 1}): fail. Expected: ${output}, found: $testResult")
+                    false
+                }
             }
-        }.none { !it }
+            .none { !it }
             .takeIf { it } ?: return
 
-        var result: OUT?
+        var result: O?
         val executionTime = measureTimeMillis {
             result = run(
-                inputPath = function.problemPath,
-                paramType = function.paramType,
-                logic = logic
+                inputPath = inputPath,
+                paramType = functionInfo.paramType
             )
         }
-        println("${function.name} result: $result. Execution time: $executionTime")
+        println("${functionInfo.name} result: $result. Execution time: $executionTime")
     }
 
-    private fun <IN, OUT> run(
-        inputPath: String,
-        paramType: KType,
-        logic: (IN) -> OUT
-    ): OUT {
-        val input = File(getDirPath(), inputPath).let {
+    @Suppress("UNCHECKED_CAST")
+    private fun run(inputPath: String, paramType: KType): O {
+        val input = File(INPUT_DIR, inputPath).let {
             when (paramType) {
                 Type.ListString.value -> it.readLines()
                 Type.Str.value -> it.readText()
@@ -60,46 +62,38 @@ object Runner {
             }
         }
 
-        return logic(input as IN)
+        return solution(input as I)
     }
 
-    private fun getDirPath() = "src/main/resources/input"
-
     private fun KFunction<*>.extractInfo(): FunctionInfo {
-        val testSuites = findAnnotation<TestSuites>()
-            ?: throw IllegalStateException("$name must contain @TestSuites annotation")
-        check(testSuites.testInputFiles.size == testSuites.testExpectedOutput.size) {
-            "@TestSuites input & output must match. " +
-                    "Input size: ${testSuites.testInputFiles.size}, output size: ${testSuites.testExpectedOutput.size}"
-        }
         val fileName = javaClass.name.split("$").first().split(".")
         return FunctionInfo(
             day = fileName[1].dropLast(2).drop(3),
             name = name,
             paramType = parameters.first().type,
-            testSuites = testSuites.testInputFiles.mapIndexed { index, s ->
-                s to testSuites.testExpectedOutput[index]
-            },
-            problemPath = testSuites.problemFiles
         )
     }
 
-    data class FunctionInfo(
-        val day: String,
-        val name: String,
-        val paramType: KType,
-        val testSuites: List<Pair<String, String>>,
-        val problemPath: String
-    )
+    companion object {
+        fun <I, O> get(logic: (I) -> O) = Runner(logic)
 
-    enum class Type(val value: KType) {
-        ListString(
-            String::class
-                .createType()
-                .let(KTypeProjection::invariant)
-                .let(::listOf)
-                .let(List::class::createType)
-        ),
-        Str(String::class.createType())
+        private const val INPUT_DIR = "src/main/resources/input"
     }
+}
+
+private data class FunctionInfo(
+    val day: String,
+    val name: String,
+    val paramType: KType,
+)
+
+private enum class Type(val value: KType) {
+    ListString(
+        String::class
+            .createType()
+            .let(KTypeProjection::invariant)
+            .let(::listOf)
+            .let(List::class::createType)
+    ),
+    Str(String::class.createType())
 }
