@@ -18,7 +18,7 @@ private fun <T> List<T>.distinctAndCount(): Map<T, Int> {
 private fun part01(input: List<String>): String {
     return input.prepareData()
         .let { it.first.sorted() to it.second.sorted() }
-        .let { it.first.mapIndexed { index, s -> abs(s - it.second[index]) } }
+        .let { it.first.mapIndexed { idx, id -> abs(id - it.second[idx]) } }
         .sum()
         .toString()
 }

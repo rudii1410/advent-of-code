@@ -54,15 +54,16 @@ class Runner <I, O> (
 
     @Suppress("UNCHECKED_CAST")
     private fun run(inputPath: String, paramType: KType): O {
-        val input = File(INPUT_DIR, inputPath).let {
-            when (paramType) {
-                Type.ListString.value -> it.readLines()
-                Type.Str.value -> it.readText()
-                else -> throw IllegalStateException("")
+        return File(INPUT_DIR, inputPath)
+            .let {
+                when (paramType) {
+                    Type.ListString.value -> it.readLines()
+                    Type.Str.value -> it.readText()
+                    else -> throw IllegalStateException("")
+                }
             }
-        }
-
-        return solution(input as I)
+            .let { it as I }
+            .let(solution)
     }
 
     private fun KFunction<*>.extractInfo(): FunctionInfo {
