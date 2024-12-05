@@ -37,7 +37,7 @@ private fun part01(input: List<String>): Int {
     }.sum()
 }
 
-private fun isOppositeValid(data: List<List<Char>>, x: Int, y: Int): Boolean {
+private fun List<List<Char>>.isOppositeValid(x: Int, y: Int): Boolean {
     val mapping = mapOf(
         (-1 to -1) to (1 to 1),
         (1 to -1) to (-1 to 1)
@@ -48,7 +48,7 @@ private fun isOppositeValid(data: List<List<Char>>, x: Int, y: Int): Boolean {
     )
     return mapping
         .map { (l, r) ->
-            cMapping[data[y + l.second][x + l.first]] == data[y + r.second][x + r.first]
+            cMapping[this[y + l.second][x + l.first]] == this[y + r.second][x + r.first]
         }
         .all { it }
 }
@@ -59,7 +59,7 @@ private fun part02(input: List<String>): Int {
     return data.mapIndexed { y, line ->
         line.mapIndexed { x, c ->
             if (x < 1 || x >= xSize - 1 || y < 1 || y >= ySize - 1) 0
-            else if (c == 'A' && isOppositeValid(data, x, y)) 1
+            else if (c == 'A' && data.isOppositeValid(x, y)) 1
             else 0
         }.sum()
     }.sum()

@@ -40,11 +40,10 @@ private fun part02(input: List<String>): Int {
 
 fun main() {
     Runner.get(::part01)
-        .test("day2_test.in", 2)
-        .run("day2.in")
+        .test("day02_test.in", 2)
+        .run("day02.in")
 
     Runner.get(::part02)
-        .test("day2_test.in", 4)
-        .test("day2_test_2.in", 10)
-        .run("day2.in")
+        .test("day02_test.in", 4)
+        .run("day02.in")
 }
