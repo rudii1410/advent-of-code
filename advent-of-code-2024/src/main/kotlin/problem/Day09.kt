@@ -41,28 +41,26 @@ private fun part02(input: String): Long {
     val blocks = input.prepareData()
         .toMutableList()
 
-    for (l in blocks.indices) {
-        if (blocks[l].first() != ".") continue
-        var target = blocks[l].size
-        var r = blocks.lastIndex
-        while (l < r && target > 0) {
-            val rSize = blocks[r].size
-            if (rSize > target || blocks[r].first() == ".") {
+    return blocks
+        .mapIndexed { l, data ->
+            if (data.first() != ".") return@mapIndexed data
+
+            var target = data.size
+            var r = blocks.size
+            while (l < r && target > 0) {
                 r -= 1
-                continue
-            }
+                if (blocks[r].size > target || blocks[r].first() == ".") continue
 
-            val lSize = blocks[l].size
-            for (x in blocks[r].indices) {
-                blocks[l][lSize - target] = blocks[r][x]
-                blocks[r][x] = "."
-                target -= 1
+                val lSize = data.size
+                for (x in blocks[r].indices) {
+                    data[lSize - target] = blocks[r][x]
+                    blocks[r][x] = "."
+                    target -= 1
+                }
             }
-
-            r -= 1
+            data
         }
-    }
-    return blocks.flatten()
+        .flatten()
         .calculate()
 }
 
