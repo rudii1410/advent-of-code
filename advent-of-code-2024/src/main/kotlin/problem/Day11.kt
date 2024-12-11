@@ -32,18 +32,19 @@ private fun calculate(stone: String, idx: Int, size: Int, memo: MutableMap<Pair<
     return result.also { memo[stone to idx] = it }
 }
 
-private fun part01(input: List<String>): BigInteger {
+private fun List<String>.solve(size: Int): BigInteger {
     val memo = mutableMapOf<Pair<String, Int>, BigInteger>()
-    return input.first()
+    return first()
         .split(" ")
-        .sumOf { calculate(it, 1, 25, memo) }
+        .sumOf { calculate(it, 1, size, memo) }
+}
+
+private fun part01(input: List<String>): BigInteger {
+    return input.solve(25)
 }
 
 private fun part02(input: List<String>): BigInteger {
-    val memo = mutableMapOf<Pair<String, Int>, BigInteger>()
-    return input.first()
-        .split(" ")
-        .sumOf { calculate(it, 1, 75, memo) }
+    return input.solve(75)
 }
 
 fun main() {
