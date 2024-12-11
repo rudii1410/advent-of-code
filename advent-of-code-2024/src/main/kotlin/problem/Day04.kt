@@ -1,38 +1,33 @@
 package problem
 
+import util.ALL_AXIS_DIRECTION
 import util.Runner
+import util.Vector2
+import util.withinBound
 
 private val xmas = listOf('X', 'M', 'A', 'S')
 
 private fun traverse(
     data: List<List<Char>>,
-    x: Int,
-    y: Int,
-    direction: Pair<Int, Int>,
-    xSize: Int,
-    ySize: Int,
+    pos: Vector2,
+    direction: Vector2,
+    size: Int,
     toFind: Int,
 ): Int {
-    if (x < 0 || x >= xSize || y < 0 || y >= ySize) return 0
-    if (toFind > 3) return 0
-    if (data[y][x] != xmas[toFind]) return 0
+    if (!pos.withinBound(size)) return 0
+    if (data[pos.y][pos.x] != xmas[toFind]) return 0
 
     if (xmas[toFind] == 'S') return 1
 
-    return traverse(data, x + direction.first, y + direction.second, direction, xSize, ySize, toFind + 1)
+    return traverse(data, pos + direction, direction, size, toFind + 1)
 }
 private fun part01(input: List<String>): Int {
     val data = input.map { it.toCharArray().toList() }
     val size = data.size
-    val direction = listOf(
-        (-1 to -1), (0 to -1), (1 to -1),
-        (-1 to 0), (1 to 0),
-        (-1 to 1), (0 to 1), (1 to 1)
-    )
     return data.mapIndexed { y, line ->
         line.mapIndexedNotNull { x, c ->
             if (c != 'X') return@mapIndexedNotNull null
-            direction.sumOf { traverse(data, x, y, it, size, size, 0) }
+            ALL_AXIS_DIRECTION.sumOf { traverse(data, Vector2(x, y), it, size, 0) }
         }.sum()
     }.sum()
 }
@@ -54,13 +49,13 @@ private fun List<List<Char>>.isOppositeValid(x: Int, y: Int): Boolean {
 }
 private fun part02(input: List<String>): Int {
     val data = input.map { it.toCharArray().toList() }
-    val xSize = data.first().size
-    val ySize = data.size
+    val size = data.size
     return data.mapIndexed { y, line ->
-        line.mapIndexed { x, c ->
-            if (x < 1 || x >= xSize - 1 || y < 1 || y >= ySize - 1) 0
-            else if (c == 'A' && data.isOppositeValid(x, y)) 1
-            else 0
+        line.mapIndexed xAxis@ { x, c ->
+            if (x < 1 || x >= size - 1 || y < 1 || y >= size - 1) return@xAxis 0
+            if (c != 'A') return@xAxis 0
+
+            if (data.isOppositeValid(x, y)) 1 else 0
         }.sum()
     }.sum()
 }

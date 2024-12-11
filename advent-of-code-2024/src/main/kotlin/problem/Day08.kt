@@ -1,6 +1,9 @@
 package problem
 
-import util.*
+import util.FOUR_DIRECTION
+import util.Runner
+import util.Vector2
+import util.withinBound
 
 private fun MutableList<MutableList<MutableList<MutableList<Vector2>>>>.drawLine(start: Vector2, dirIdx: Int) {
     val direction = FOUR_DIRECTION[dirIdx]

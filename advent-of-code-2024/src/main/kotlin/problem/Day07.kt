@@ -1,6 +1,8 @@
 package problem
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.runBlocking
 import util.Runner
 
 private fun String.prepareData(): Pair<Long, List<Long>> {
