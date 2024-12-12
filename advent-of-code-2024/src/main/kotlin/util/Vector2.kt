@@ -13,9 +13,17 @@ data class Vector2(val x: Int, val y: Int) {
             y = y + other.y
         )
     }
+    operator fun times(multiplier: Int): Vector2 {
+        return this.copy(
+            x = x * multiplier,
+            y = y * multiplier
+        )
+    }
+
     fun abs(): Vector2 {
         return this.copy(
-            x = kotlin.math.abs(x), y = kotlin.math.abs(y)
+            x = kotlin.math.abs(x),
+            y = kotlin.math.abs(y)
         )
     }
 }

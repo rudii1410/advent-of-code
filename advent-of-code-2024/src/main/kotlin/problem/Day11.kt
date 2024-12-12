@@ -3,21 +3,23 @@ package problem
 import util.Runner
 import java.math.BigInteger
 
+private fun String.removeLeadingZeros(): String {
+    return indexOfFirst { it != '0' }
+        .let {
+            if (it < 0) "0"
+            else this.substring(it)
+        }
+}
+
 private fun calculate(stone: String, idx: Int, size: Int, memo: MutableMap<Pair<String, Int>, BigInteger>): BigInteger {
     memo[stone to idx]?.let { return it }
 
     val changes = if (stone == "0") {
         listOf("1")
     } else if (stone.length % 2 == 0) {
-        stone
-            .chunked(stone.length / 2)
+        stone.chunked(stone.length / 2)
             .let { (l, r) ->
-                r.indexOfFirst { it != '0' }
-                    .let {
-                        if (it < 0) "0"
-                        else r.substring(it)
-                    }
-                    .let { listOf(l, it) }
+                listOf(l, r.removeLeadingZeros())
             }
     } else {
         listOf("${(stone.toLong() * 2024)}")
