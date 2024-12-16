@@ -86,12 +86,10 @@ private fun part02(input: List<String>): Int {
                 var res = 0
                 var start = it.first
                 while (start.withinBound(size)) {
-                    if (overlaps[start.y][start.x]) {
-                        start += it.second
-                        continue
+                    if (!overlaps[start.y][start.x]) {
+                        overlaps[start.y][start.x] = true
+                        res += 1
                     }
-                    overlaps[start.y][start.x] = true
-                    res += 1
                     start += it.second
                 }
                 res

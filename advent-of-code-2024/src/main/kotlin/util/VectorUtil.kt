@@ -30,4 +30,4 @@ fun Vector2.withinBound(xSize: Int, ySize: Int): Boolean {
     return x >= 0 && y >= 0 && x < xSize && y < ySize
 }
 
-fun Pair<Int, Int>.toVec2() = Vector2(x = first, y = second)
+fun Pair<Int, Int>.toVec2(): Vector2 = Vector2(first, second)
