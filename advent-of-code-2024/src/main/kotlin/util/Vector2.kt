@@ -26,4 +26,8 @@ data class Vector2(val x: Int, val y: Int) {
             y = kotlin.math.abs(y)
         )
     }
+
+    companion object {
+        val ZERO = Vector2(0, 0)
+    }
 }
