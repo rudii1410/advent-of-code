@@ -31,3 +31,5 @@ fun Vector2.withinBound(xSize: Int, ySize: Int): Boolean {
 }
 
 fun Pair<Int, Int>.toVec2(): Vector2 = Vector2(first, second)
+
+fun Int.toVec2(): Vector2 = Vector2(this, this)

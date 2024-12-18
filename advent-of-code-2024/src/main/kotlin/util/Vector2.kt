@@ -20,6 +20,10 @@ data class Vector2(val x: Int, val y: Int) {
         )
     }
 
+    override fun toString(): String {
+        return "$x,$y"
+    }
+
     fun abs(): Vector2 {
         return this.copy(
             x = kotlin.math.abs(x),

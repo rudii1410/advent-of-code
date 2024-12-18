@@ -1,7 +1,10 @@
 package problem
 
-import util.*
-import java.util.*
+import util.FOUR_DIRECTION
+import util.RIGHT
+import util.Runner
+import util.Vector2
+import java.util.ArrayDeque
 
 private fun List<String>.scanPoints(): Pair<Vector2, Vector2> {
     return foldIndexed(Vector2.ZERO to Vector2.ZERO) { y, accY, line ->
