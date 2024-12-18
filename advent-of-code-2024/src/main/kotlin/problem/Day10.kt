@@ -1,8 +1,11 @@
 package problem
 
 import util.FOUR_DIRECTION
+import util.MutableGrid
 import util.Runner
 import util.Vector2
+import util.get
+import util.set
 
 private fun List<String>.prepareInput(): List<List<Int>> {
     return map { line ->
@@ -12,23 +15,23 @@ private fun List<String>.prepareInput(): List<List<Int>> {
 }
 
 private fun traverse(
-    memo: MutableList<MutableList<List<Vector2>>>,
+    memo: MutableGrid<List<Vector2>>,
     toFind: Int,
     pos: Vector2,
     size: Int,
     map: List<List<Int>>
 ): List<Vector2> {
     if (pos.x < 0 || pos.x >= size || pos.y < 0 || pos.y >= size) return emptyList()
-    if (toFind != map[pos.y][pos.x]) return emptyList()
-    if (memo[pos.y][pos.x].isNotEmpty()) return memo[pos.y][pos.x]
+    if (toFind != map.get(pos)) return emptyList()
+    if (memo.get(pos).isNotEmpty()) return memo.get(pos)
     if (toFind == 9) return listOf(pos)
 
     FOUR_DIRECTION
         .map { traverse(memo, toFind + 1, pos + it, size, map) }
         .flatten()
-        .also { memo[pos.y][pos.x] += it }
+        .also { memo.set(pos, memo.get(pos) + it) }
 
-    return memo[pos.y][pos.x]
+    return memo.get(pos)
 }
 
 private fun part01(input: List<String>): Int {

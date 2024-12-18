@@ -1,8 +1,10 @@
 package problem
 
 import util.FOUR_DIRECTION
+import util.Grid
 import util.Runner
 import util.Vector2
+import util.get
 import util.toVec2
 import util.withinBound
 import kotlin.math.floor
@@ -14,7 +16,7 @@ private fun List<Vector2>.drawMap(size: Int): List<List<Char>> {
         }
     }
 }
-private fun List<List<Char>>.traverse(start: Vector2, end: Vector2): Int {
+private fun Grid<Char>.traverse(start: Vector2, end: Vector2): Int {
     val queue = ArrayDeque<Pair<Vector2, Int>>()
         .also { it.add(start to 0) }
     val visited = mutableSetOf<Vector2>()
@@ -29,7 +31,7 @@ private fun List<List<Char>>.traverse(start: Vector2, end: Vector2): Int {
             .mapNotNull {
                 val newPos = pos + it
                 if (!newPos.withinBound(size)) return@mapNotNull null
-                if (this[newPos.y][newPos.x] == '#') return@mapNotNull null
+                if (this.get(newPos) == '#') return@mapNotNull null
                 if (newPos in visited) return@mapNotNull null
 
                 visited.add(newPos)
@@ -76,7 +78,7 @@ private fun part02(input: List<String>): String {
                 .calculateStep(gridSize)
                 .let { it > 0 }
 
-            if (isPrevConnected) return fallenMemory[mid - 1].toString()
+            if (isPrevConnected) return fallenMemory[mid - 1].let { "${it.x.toInt()},${it.y.toInt()}" }
             else high = mid - 1
         }
     }

@@ -1,21 +1,23 @@
 package problem
 
 import util.ALL_AXIS_DIRECTION
+import util.Grid
 import util.Runner
 import util.Vector2
+import util.get
 import util.withinBound
 
 private val xmas = listOf('X', 'M', 'A', 'S')
 
 private fun traverse(
-    data: List<List<Char>>,
+    data: Grid<Char>,
     pos: Vector2,
     direction: Vector2,
     size: Int,
     toFind: Int,
 ): Int {
     if (!pos.withinBound(size)) return 0
-    if (data[pos.y][pos.x] != xmas[toFind]) return 0
+    if (data.get(pos) != xmas[toFind]) return 0
 
     if (xmas[toFind] == 'S') return 1
 

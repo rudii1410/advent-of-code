@@ -2,6 +2,9 @@ package problem
 
 import util.Runner
 import util.Vector2
+import util.createMutableGrid
+import util.get
+import util.set
 
 private fun String.parseLine(): Pair<Vector2, Vector2> {
     return split(" ")
@@ -20,9 +23,9 @@ private fun Vector2.toQuadrant(): List<Pair<Vector2, Vector2>> {
     val yMid = y / 2
     return listOf(
         Vector2(0, 0) to Vector2(xMid - 1, yMid - 1),
-        Vector2(xMid + 1, 0) to Vector2(x - 1, yMid - 1),
+        Vector2(xMid + 1, 0.0) to Vector2(x - 1, yMid - 1),
         Vector2(xMid + 1, yMid + 1) to Vector2(x - 1, y - 1),
-        Vector2(0, yMid + 1) to Vector2(xMid - 1, y - 1)
+        Vector2(0.0, yMid + 1) to Vector2(xMid - 1, y - 1)
     )
 }
 private fun Vector2.checkQuadrantGroup(group: List<Pair<Vector2, Vector2>>): Int {
@@ -33,7 +36,7 @@ private fun Vector2.checkQuadrantGroup(group: List<Pair<Vector2, Vector2>>): Int
 private fun part01(input: List<String>): Int {
     val size = Vector2(101, 103)
     val round = 100
-    val canvas = MutableList(size.y) { MutableList(size.x) { 0 } }
+    val canvas = createMutableGrid(size.x.toInt(), size.y.toInt()) { 0 }
     val groups = size.toQuadrant()
     input.forEach { line ->
         val (pos, vel) = line.parseLine()
@@ -42,7 +45,8 @@ private fun part01(input: List<String>): Int {
         val y = ((pos.y + (vel.y * round)) % size.y)
             .let { if (it < 0) size.y + it else it }
 
-        canvas[y][x] = canvas[y][x] + 1
+        Vector2(x, y)
+            .let { canvas.set(pos, canvas.get(pos) + 1) }
     }
     val answers = MutableList(4) { 0 }
     canvas.forEachIndexed { y, line ->
@@ -64,7 +68,7 @@ private fun part02(input: List<String>): Int {
     var maxX = 0
     var shouldPrint = false
     while (true) {
-        val canvas = MutableList(size.y) { MutableList(size.x) { '.' } }
+        val canvas = createMutableGrid(size.x.toInt(), size.y.toInt()) { '.' }
         input.forEach { line ->
             val (pos, vel) = line.parseLine()
             val x = ((pos.x + (vel.x * round)) % size.x)
@@ -72,7 +76,8 @@ private fun part02(input: List<String>): Int {
             val y = ((pos.y + (vel.y * round)) % size.y)
                 .let { if (it < 0) size.y + it else it }
 
-            canvas[y][x] = '#'
+            Vector2(x, y)
+                .let { canvas.set(pos, '#') }
         }
 
         canvas.forEach {

@@ -5,6 +5,8 @@ import util.MutableGrid
 import util.Runner
 import util.Vector2
 import util.createMutableGrid
+import util.get
+import util.set
 import util.withinBound
 
 typealias AntennasMap = MutableGrid<MutableList<MutableList<Vector2>>>
@@ -13,7 +15,7 @@ private fun AntennasMap.drawLine(start: Vector2, dirIdx: Int) {
     val direction = FOUR_DIRECTION[dirIdx]
     var loc = start + direction
     while(loc.withinBound(size)) {
-        this[loc.y][loc.x][dirIdx].add(start)
+        this.get(loc)[dirIdx].add(start)
         loc += direction
     }
 }
@@ -66,8 +68,8 @@ private fun part01(input: List<String>): Int {
         return (p.first - p.second)
             .let { listOf(p.first + it, p.second - it) }
             .count { x ->
-                x.takeIf { it.withinBound(size) && !overlaps[it.y][it.x] }
-                    ?.also { overlaps[it.y][it.x] = true }
+                x.takeIf { it.withinBound(size) && !overlaps.get(it) }
+                    ?.also { overlaps.set(it, true) }
                     .let { it != null }
             }
     }
@@ -86,8 +88,8 @@ private fun part02(input: List<String>): Int {
                 var res = 0
                 var start = it.first
                 while (start.withinBound(size)) {
-                    if (!overlaps[start.y][start.x]) {
-                        overlaps[start.y][start.x] = true
+                    if (!overlaps.get(start)) {
+                        overlaps.set(start, true)
                         res += 1
                     }
                     start += it.second

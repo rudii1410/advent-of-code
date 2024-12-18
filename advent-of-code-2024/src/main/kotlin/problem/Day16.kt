@@ -1,9 +1,11 @@
 package problem
 
 import util.FOUR_DIRECTION
+import util.Grid
 import util.RIGHT
 import util.Runner
 import util.Vector2
+import util.get
 import java.util.ArrayDeque
 
 private fun List<String>.scanPoints(): Pair<Vector2, Vector2> {
@@ -24,7 +26,7 @@ private data class Info(
     val visited: Set<Vector2>,
     val dist: Int
 )
-private fun traverse(start: Vector2, end: Vector2, map: List<String>): Pair<Int, Set<Vector2>> {
+private fun traverse(start: Vector2, end: Vector2, map: Grid<Char>): Pair<Int, Set<Vector2>> {
     val queue = ArrayDeque<Info>()
         .also { it.add(Info(start, RIGHT, setOf(start),0)) }
     val distances = mutableMapOf<Vector2, Int>()
@@ -45,7 +47,7 @@ private fun traverse(start: Vector2, end: Vector2, map: List<String>): Pair<Int,
                 val newPos = pos + it
                 val totalDist = dist + 1 + if (dir == it) 0 else 1000
 
-                if (map[newPos.y][newPos.x] == '#') return@mapNotNull null
+                if (map.get(newPos) == '#') return@mapNotNull null
                 if (newPos in visited) return@mapNotNull null
                 if (totalDist > distances.getValue(newPos)) return@mapNotNull null
 
@@ -60,13 +62,14 @@ private fun traverse(start: Vector2, end: Vector2, map: List<String>): Pair<Int,
 }
 private fun part01(input: List<String>): Int {
     val (start, end) = input.scanPoints()
-    return traverse(start, end, input).first
+    return traverse(start, end, input.map { it.toList() }).first
 }
 
 private fun part02(input: List<String>): Int {
     val (start, end) = input.scanPoints()
+    val map = input.map { it.toList() }
     return listOf(start to end, end to start)
-        .fold(emptySet<Vector2>()) { acc, p -> acc + traverse(p.first, p.second, input).second }
+        .fold(emptySet<Vector2>()) { acc, p -> acc + traverse(p.first, p.second, map).second }
         .size
 }
 

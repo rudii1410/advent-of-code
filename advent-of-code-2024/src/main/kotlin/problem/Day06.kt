@@ -1,11 +1,14 @@
 package problem
 
 import util.FOUR_DIRECTION
+import util.MutableGrid
 import util.Runner
 import util.Vector2
+import util.get
+import util.set
 import util.withinBound
 
-private fun List<String>.prepareData(): Pair<Vector2, MutableList<MutableList<Char>>> {
+private fun List<String>.prepareData(): Pair<Vector2, MutableGrid<Char>> {
     var loc = Vector2(0, 0)
     return mapIndexed { y, line ->
         line.toMutableList()
@@ -35,7 +38,7 @@ private fun part01(input: List<String>): Int {
         visited.add(loc)
         (loc + FOUR_DIRECTION[dir])
             .takeIf { it.withinBound(parsedMap.size) }
-            ?.let { parsedMap[it.y][it.x] }
+            ?.let { parsedMap.get(it) }
             ?.let { if (it == '#') dir = dir.turn() }
             ?: break
 
@@ -54,7 +57,7 @@ private fun part02(input: List<String>): Int {
     }.flatten()
     
     return possibleBlocker.count { c ->
-        parsedMap[c.y][c.x] = '#'
+        parsedMap.set(c, '#')
 
         var loc = start
         var dir = 0
@@ -65,7 +68,7 @@ private fun part02(input: List<String>): Int {
 
             val ch = (loc + FOUR_DIRECTION[dir])
                 .takeIf { it.withinBound(parsedMap.size) }
-                ?.let { parsedMap[it.y][it.x] }
+                ?.let { parsedMap.get(it) }
                 ?: break
 
             if (ch == '#') dir = dir.turn()
@@ -76,7 +79,7 @@ private fun part02(input: List<String>): Int {
             }
         }
 
-        parsedMap[c.y][c.x] = '.'
+        parsedMap.set(c, '.')
         found
     }
 }

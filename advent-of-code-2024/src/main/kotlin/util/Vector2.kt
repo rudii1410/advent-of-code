@@ -1,6 +1,8 @@
 package util
 
-data class Vector2(val x: Int, val y: Int) {
+data class Vector2(val x: Double, val y: Double) {
+    constructor(x: Int, y: Int) : this(x.toDouble(), y.toDouble())
+
     operator fun minus(other: Vector2): Vector2 {
         return this.copy(
             x = x - other.x,
@@ -32,6 +34,6 @@ data class Vector2(val x: Int, val y: Int) {
     }
 
     companion object {
-        val ZERO = Vector2(0, 0)
+        val ZERO = Vector2(0.0, 0.0)
     }
 }
