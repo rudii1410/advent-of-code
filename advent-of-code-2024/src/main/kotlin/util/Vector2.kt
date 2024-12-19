@@ -33,6 +33,10 @@ data class Vector2(val x: Double, val y: Double) {
         )
     }
 
+    fun isInside(rect: Rectangle): Boolean {
+        return x >= rect.x.x && x <= rect.y.x && y >= rect.x.y && y <= rect.y.y
+    }
+
     companion object {
         val ZERO = Vector2(0.0, 0.0)
     }

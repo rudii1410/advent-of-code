@@ -1,4 +1,4 @@
-package problem
+package problem.unfinished
 
 import util.FOUR_DIRECTION
 import util.Grid

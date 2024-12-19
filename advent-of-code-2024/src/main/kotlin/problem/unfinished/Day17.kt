@@ -1,4 +1,4 @@
-package problem
+package problem.unfinished
 
 import util.Runner
 import kotlin.math.pow
