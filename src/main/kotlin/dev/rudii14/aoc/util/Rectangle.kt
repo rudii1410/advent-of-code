@@ -1,4 +1,6 @@
-package util
+package dev.rudii14.aoc.util
+
+import util.Vector2
 
 /**
  *   x--------*

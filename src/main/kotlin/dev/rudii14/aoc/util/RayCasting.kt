@@ -1,5 +1,6 @@
-package util
+package dev.rudii14.aoc.util
 
+import util.Vector2
 import java.awt.geom.Line2D
 // testing (O, 0.0,0.0) and (X, 1.0,1.0)
 class RayCasting(private val start: Vector2 = (-1).toVec2()) {

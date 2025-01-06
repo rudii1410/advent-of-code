@@ -1,6 +1,6 @@
-package util
+package dev.rudii14.aoc.util
 
-import java.awt.geom.Line2D
+import util.Vector2
 
 class Polygon (val points: List<Vector2>) {
     val bounds by lazy { calculateMinMaxBounds() }

@@ -1,4 +1,4 @@
-package util
+package dev.rudii14.aoc.util
 
 import java.io.File
 import kotlin.reflect.KFunction
@@ -54,7 +54,7 @@ class Runner <I, O> (
 
     @Suppress("UNCHECKED_CAST")
     private fun run(inputPath: String, paramType: KType): O {
-        return File(INPUT_DIR, inputPath)
+        return File(INPUT_DIR + "/${functionInfo.year}", inputPath)
             .let {
                 when (paramType) {
                     Type.ListString.value -> it.readLines()
@@ -72,6 +72,7 @@ class Runner <I, O> (
             day = fileName[1].dropLast(2).drop(3),
             name = name,
             paramType = parameters.first().type,
+            year = javaClass.packageName.split(".").last()
         )
     }
 
@@ -84,6 +85,7 @@ class Runner <I, O> (
 
 private data class FunctionInfo(
     val day: String,
+    val year: String,
     val name: String,
     val paramType: KType,
 )

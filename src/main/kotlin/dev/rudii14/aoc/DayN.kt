@@ -1,6 +1,6 @@
-package problem
+package dev.rudii14.aoc
 
-import util.Runner
+import dev.rudii14.aoc.util.Runner
 
 private fun part01(input: List<String>): Int {
     return 0

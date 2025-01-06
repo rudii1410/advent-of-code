@@ -1,4 +1,6 @@
-package util
+package dev.rudii14.aoc.util
+
+import util.Vector2
 
 val TOP_LEFT = Vector2(-1, -1)
 val TOP = Vector2(0, -1)
