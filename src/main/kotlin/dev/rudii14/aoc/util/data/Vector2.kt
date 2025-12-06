@@ -1,4 +1,4 @@
-package util
+package dev.rudii14.aoc.util.data
 
 import dev.rudii14.aoc.util.Rectangle
 

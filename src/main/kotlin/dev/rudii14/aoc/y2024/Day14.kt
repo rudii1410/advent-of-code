@@ -1,7 +1,7 @@
 package dev.rudii14.aoc.y2024
 
 import dev.rudii14.aoc.util.Runner
-import util.Vector2
+import dev.rudii14.aoc.util.data.Vector2
 import dev.rudii14.aoc.util.createMutableGrid
 import dev.rudii14.aoc.util.get
 import dev.rudii14.aoc.util.set

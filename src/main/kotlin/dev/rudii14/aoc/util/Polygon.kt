@@ -1,6 +1,6 @@
 package dev.rudii14.aoc.util
 
-import util.Vector2
+import dev.rudii14.aoc.util.data.Vector2
 
 class Polygon (val points: List<Vector2>) {
     val bounds by lazy { calculateMinMaxBounds() }

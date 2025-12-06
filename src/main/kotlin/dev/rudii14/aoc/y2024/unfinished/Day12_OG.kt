@@ -8,7 +8,7 @@ import dev.rudii14.aoc.util.MutableGrid
 import dev.rudii14.aoc.util.RIGHT
 import dev.rudii14.aoc.util.Runner
 import dev.rudii14.aoc.util.TOP
-import util.Vector2
+import dev.rudii14.aoc.util.data.Vector2
 import dev.rudii14.aoc.util.get
 import dev.rudii14.aoc.util.set
 import dev.rudii14.aoc.util.withinBound

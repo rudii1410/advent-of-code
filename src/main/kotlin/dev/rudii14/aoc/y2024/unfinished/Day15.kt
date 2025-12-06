@@ -4,7 +4,7 @@ import dev.rudii14.aoc.util.FOUR_DIRECTION
 import dev.rudii14.aoc.util.Grid
 import dev.rudii14.aoc.util.MutableGrid
 import dev.rudii14.aoc.util.Runner
-import util.Vector2
+import dev.rudii14.aoc.util.data.Vector2
 import dev.rudii14.aoc.util.get
 
 private fun traverse(
