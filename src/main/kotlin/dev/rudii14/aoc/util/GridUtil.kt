@@ -1,6 +1,6 @@
 package dev.rudii14.aoc.util
 
-import util.Vector2
+import dev.rudii14.aoc.util.data.Vector2
 
 typealias Grid<T> = List<List<T>>
 typealias MutableGrid<T> = MutableList<MutableList<T>>
