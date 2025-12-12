@@ -11,11 +11,11 @@ private fun part1(input: List<String>): Int {
     return findFirstMarker(input[0], 4)
 }
 
-
 /* Part 2 */
 private fun part2(input: List<String>): Int {
     return findFirstMarker(input[0], 14)
 }
+
 fun main() {
     Runner.get(::part1)
         .test("day06_test.in", 7)

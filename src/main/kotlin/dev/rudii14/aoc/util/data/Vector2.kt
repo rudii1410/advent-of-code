@@ -23,6 +23,12 @@ data class Vector2(val x: Double, val y: Double) {
             y = y * multiplier
         )
     }
+    operator fun times(other: Vector2): Vector2 {
+        return this.copy(
+            x = x * other.x,
+            y = y * other.y
+        )
+    }
 
     override fun toString(): String {
         return "$x,$y"

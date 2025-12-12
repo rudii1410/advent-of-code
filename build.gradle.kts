@@ -21,4 +21,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:2.0.0")
     implementation("io.ktor:ktor-client-core:3.3.2")
     implementation("io.ktor:ktor-client-cio:3.3.2")
+    implementation("org.apache.commons:commons-math3:3.6.1")
+    implementation("com.google.ortools:ortools-java:9.14.6206")
 }
