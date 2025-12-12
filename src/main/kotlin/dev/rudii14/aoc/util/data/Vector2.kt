@@ -1,4 +1,4 @@
-package util
+package dev.rudii14.aoc.util.data
 
 import dev.rudii14.aoc.util.Rectangle
 
@@ -21,6 +21,12 @@ data class Vector2(val x: Double, val y: Double) {
         return this.copy(
             x = x * multiplier,
             y = y * multiplier
+        )
+    }
+    operator fun times(other: Vector2): Vector2 {
+        return this.copy(
+            x = x * other.x,
+            y = y * other.y
         )
     }
 

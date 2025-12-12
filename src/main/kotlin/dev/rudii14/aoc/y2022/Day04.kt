@@ -2,6 +2,7 @@ package dev.rudii14.aoc.y2022
 
 import dev.rudii14.aoc.util.Runner
 
+// TODO: unify range logic
 private fun Int.inRange(range: List<Int>): Boolean = this in range[0]..range[1]
 private fun List<Int>.withinRange(other: List<Int>): Boolean = get(0).inRange(other) && get(1).inRange(other)
 private fun List<Int>.isOverlapping(other: List<Int>): Boolean =

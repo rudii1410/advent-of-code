@@ -3,7 +3,7 @@ package dev.rudii14.aoc.y2024
 import dev.rudii14.aoc.util.FOUR_DIRECTION
 import dev.rudii14.aoc.util.Grid
 import dev.rudii14.aoc.util.Runner
-import util.Vector2
+import dev.rudii14.aoc.util.data.Vector2
 import dev.rudii14.aoc.util.get
 import dev.rudii14.aoc.util.toVec2
 import dev.rudii14.aoc.util.withinBound
@@ -89,7 +89,7 @@ private fun part02(input: List<String>): String {
 fun main() {
     Runner.get(::part01)
 //        .test("day18_test.in", 22)
-        .run("day18.in")
+        .run()
 
     Runner.get(::part02)
 //        .test("day18_test.in", "6,1")

@@ -1,6 +1,7 @@
 package dev.rudii14.aoc.util
 
-import util.Vector2
+import dev.rudii14.aoc.util.data.Point2
+import dev.rudii14.aoc.util.data.Vector2
 
 /**
  *   x--------*
@@ -9,8 +10,8 @@ import util.Vector2
  *   *--------y
  */
 data class Rectangle(
-    val x: Vector2,
-    val y: Vector2,
+    val x: Point2,
+    val y: Point2,
 ) {
     fun isInside(point: Vector2): Boolean {
         return point.x >= x.x && point.x <= y.x && point.y >= x.y && point.y <= y.y

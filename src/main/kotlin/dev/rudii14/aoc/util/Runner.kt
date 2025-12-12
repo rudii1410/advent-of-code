@@ -1,11 +1,19 @@
 package dev.rudii14.aoc.util
 
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.request.request
+import io.ktor.http.HttpMethod
+import kotlinx.coroutines.runBlocking
 import java.io.File
+import java.nio.file.Path
+import kotlin.io.path.createDirectories
+import kotlin.io.path.exists
 import kotlin.reflect.KFunction
 import kotlin.reflect.KType
 import kotlin.reflect.KTypeProjection
 import kotlin.reflect.full.createType
-import kotlin.system.measureTimeMillis
+import kotlin.system.measureNanoTime
 
 class Runner <I, O> (
     private val solution: (input: I) -> O,
@@ -43,13 +51,31 @@ class Runner <I, O> (
             .takeIf { it } ?: return
 
         var result: O?
-        val executionTime = measureTimeMillis {
+        val executionTime = measureNanoTime {
             result = run(
                 inputPath = inputPath,
                 paramType = functionInfo.paramType
             )
         }
-        println("${functionInfo.name} result: $result. Execution time: $executionTime")
+        println("${functionInfo.name} result: $result. Execution time: $executionTime ns")
+    }
+
+    // TODO: continue working on this
+    fun run() = runBlocking {
+        // check if input file is exist
+        val inputPath = getInputDirectory()
+        // Fetch input
+        val inputUrl = "https://adventofcode.com/${functionInfo.year}/day/${functionInfo.day.toInt()}/input"
+        val client = HttpClient(CIO)
+        val response = client.request(inputUrl) {
+            method = HttpMethod.Get
+        }
+        if (response.status.value !in 200..299) {
+            return@runBlocking
+        }
+        // create files
+        val path = getInputDirectory()
+        // run as usual
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -74,6 +100,15 @@ class Runner <I, O> (
             paramType = parameters.first().type,
             year = javaClass.packageName.split(".").last()
         )
+    }
+
+    private fun getInputDirectory(): String {
+        val directoryPath = Path.of(INPUT_DIR + "/${functionInfo.year}")
+        if (!directoryPath.exists()) {
+            directoryPath.createDirectories()
+        }
+
+        return directoryPath.toString()
     }
 
     companion object {
